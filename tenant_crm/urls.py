@@ -16,13 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from apps.tenant_db import views
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'contacts', views.ContactViewSet)
+router.register(r'buildings', views.BuildingViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('contacts/', views.contacts),
+    #path('contacts/', views.contacts),
+    #path('contacts/<int:contact_id>', views.contact),
     # path('organizers/', views.organizers),
     # path('buildings/', views.buildings),
     # path('events/', views.buildings)
 
     # API Routes
 ]
+
+urlpatterns.extend(router.urls)
