@@ -30,17 +30,22 @@ class ContactViewSet(viewsets.ViewSet):
 
     def create(self, request):
         data = JSONParser().parse(io.BytesIO(request.body))
-
         serializer = ContactSerializer(data=data)
         if (serializer.is_valid()):
             contact = serializer.save()
-        return Response(serializer.data)
+            return Response(ContactSerializer(contact).data, status=201)
+        else:
+            return Response(status=400)
 
     def partial_update(self, request, pk=None):
         data = JSONParser().parse(io.BytesIO(request.body))
         test = self.get_queryset().filter(id = pk).update(**data)
         
         return Response(200)
+
+    def destroy(self, request, pk=None):
+        get_object_or_404(self.get_queryset(), id=pk).delete();
+        return Response(status=204)    
 
 class BuildingViewSet(viewsets.ViewSet):
     queryset = models.Building.objects.all()
