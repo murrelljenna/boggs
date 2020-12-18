@@ -8,6 +8,7 @@ __pycache__/
 
 # swp files
 *.swp
+*.swo
 
 # Distribution / packaging
 .Python
@@ -109,6 +110,8 @@ media/
 *.pyc
 *.db
 *.pid
+
+apps/tenant_db/migrations/*
 
 # Ignore Django Migrations in Development if you are working on team
 

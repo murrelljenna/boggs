@@ -1,18 +1,26 @@
 from apps.tenant_db import models
 from rest_framework import serializers
+from django.contrib.auth.models import User
+
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Contact
-        fields = ['id', 'first_name', 'last_name', 'email_address']
+        fields = "__all__"
 
-    def create(self, validated_data):
-        return models.Contact.objects.create(**validated_data)
 
 class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Building
-        fields = '__all__'
+        fields = "__all__"
 
-    def create(self, validated_data):
-        return models.Building.objects.create(**validated_data)
+
+class OrganizerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Organizer
+        fields = "__all__"
+
+class dnkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Do_Not_Knock
+        fields = "__all__"
