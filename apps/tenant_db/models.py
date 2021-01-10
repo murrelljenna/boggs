@@ -1,7 +1,5 @@
 from django.db import models
 from django.core.validators import EmailValidator
-from django.core.validators import RegexValidator
-
 
 class Building(models.Model):
     street_number = models.CharField(max_length=30)
