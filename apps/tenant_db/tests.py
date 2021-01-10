@@ -3,7 +3,16 @@ from django.contrib.auth.models import User
 
 # Create your tests here.
 
-class AuthenticationTest(TestCase):
+class ContactsRouteTest(TestCase):
+    pass
+
+class OrganizersRouteTest(TestCase):
+    pass
+
+class BuildingsRouteTest(TestCase):
+    pass
+
+class AuthenticationRouteTest(TestCase):
     """ For testing authentication routes and token provisioning """
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='12345')
