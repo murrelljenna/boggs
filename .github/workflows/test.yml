@@ -1,0 +1,23 @@
+name: Run Tests
+on: [pull_request, push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set .env file
+      run: |
+        echo "export CANVAS_DB_USER=${{ secrets.CANVAS_DB_USER }}" >> .env
+        echo "export CANVAS_DB_SECRET=${{ secrets.CANVAS_DB_SECRET }}" >> .env
+        echo "export CANVAS_DB_PASS=${{ secrets.CANVAS_DB_PASS }}" >> .env
+        pwd
+        ls -al
+        cat .env
+    - name : test
+      run: |
+        pwd
+        ls -al
+        cat .env
+    - name: Build and run tests
+      run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from web-test --build

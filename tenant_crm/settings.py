@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'canvas_db',
         "USER": os.environ.get('CANVAS_DB_USER'),
         "PASSWORD": os.environ.get('CANVAS_DB_PASS'),
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '',
     }
 }

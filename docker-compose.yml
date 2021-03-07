@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  web:
+    image: canvas_db
+    command: pipenv run python ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/tmp/canvas_db
+    ports:
+      - 8000:8000
+    depends_on:
+      - migration
+      - db
+    restart: unless-stopped
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=${CANVAS_DB_USER}
+      - POSTGRES_PASSWORD=${CANVAS_DB_PASS}
+      - POSTGRES_DB=${CANVAS_DB_USER}
+    restart: unless-stopped
+  migration:
+    build: 
+      context: .
+      args:
+        CANVAS_DB_USER: "${CANVAS_DB_USER}"
+        CANVAS_DB_PASS: "${CANVAS_DB_PASS}"
+        CANVAS_DB_SECRET: "${CANVAS_DB_SECRET}"
+    image: canvas_db
+    command: bash -c "pipenv run python ./manage.py makemigrations && pipenv run python ./manage.py migrate"
+    links:
+      - db
+    depends_on:
+      - db 
+    
+
+volumes:
+  postgres_data:
