@@ -79,6 +79,41 @@ urlpatterns = [
         ),
         name="organizers_detail",
     ),
+
+    # Event
+    path(
+        "events/",
+        generics.ListCreateAPIView.as_view(
+            queryset=models.Event.objects.all(),
+            serializer_class=serializers.EventSerializer,
+        ),
+        name="events",
+    ),
+    path(
+        "events/<int:pk>/",
+        generics.RetrieveUpdateDestroyAPIView.as_view(
+            queryset=models.Event.objects.all(),
+            serializer_class=serializers.EventSerializer,
+        ),
+        name="events_detail",
+    ),
+    # Event
+    path(
+        "attendances/",
+        generics.ListCreateAPIView.as_view(
+            queryset=models.Attendance.objects.all(),
+            serializer_class=serializers.AttendanceSerializer,
+        ),
+        name="attendances",
+    ),
+    path(
+        "attendances/<int:pk>/",
+        generics.RetrieveUpdateDestroyAPIView.as_view(
+            queryset=models.Attendance.objects.all(),
+            serializer_class=serializers.AttendanceSerializer,
+        ),
+        name="attendances_detail",
+    ),
     # Do Not Knock
     path(
         "dnk/",
