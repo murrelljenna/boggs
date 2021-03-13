@@ -96,3 +96,40 @@ class AttendanceGetRouteTest(TestCase):
         }
         
         self.assertEqual(response_attendance, expected_attendance)
+
+    def test_get_attendance_by_event_id(self):
+        event = Event.objects.create(
+            id = 5,
+            name = "Catan Party",
+            location = "My pad",
+            description = "byob"
+        )
+
+        contact = Contact.objects.create(
+            id = 10,
+            first_name = "KRS",
+            last_name = "-One",
+        )
+
+        attendance = Attendance.objects.create(
+            id = 1,
+            event = event,
+            contact = contact,
+            result = CallResult.NO
+        )       
+
+        response = self.client.get(f"/attendances/?event=5")
+
+        self.assertEqual(response.status_code, 200)
+
+        response_attendance = response.json()[0]
+        response_attendance.pop('id')
+
+        expected_attendance = {
+            'event': 5,
+            'contact': 10, 
+            'result': CallResult.NO
+        }
+        
+        self.assertEqual(response_attendance, expected_attendance)
+

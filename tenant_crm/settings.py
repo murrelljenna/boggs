@@ -60,6 +60,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 JWT_AUTH = {"JWT_RESPONSE_PAYLOAD_HANDLER": "tenant_crm.utils.jwt_response_handler"}
@@ -95,7 +96,7 @@ DATABASES = {
         'NAME': 'canvas_db',
         "USER": os.environ.get('CANVAS_DB_USER'),
         "PASSWORD": os.environ.get('CANVAS_DB_PASS'),
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '',
     }
 }
