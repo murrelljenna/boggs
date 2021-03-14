@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from apps.tenant_db.serializers import EventSerializer
 from apps.tenant_db.models import Attendance, CallResult, Event, Contact
 from apps.tenant_db.tests import TestUtils, fake_models
 
