@@ -9,7 +9,7 @@ services:
         CANVAS_DB_PASS: "${CANVAS_DB_PASS}"
         CANVAS_DB_SECRET: "${CANVAS_DB_SECRET}"
     image: canvas_db
-    command: pipenv run python ./manage.py test --no-input
+    command: bash -c "./wait-for-it.sh db:5432 && pipenv run python ./manage.py makemigrations && pipenv run python ./manage.py migrate && pipenv run python ./manage.py test --no-input"
     volumes:
       - ./:/tmp/canvas_db
     ports:
@@ -27,6 +27,5 @@ services:
       - POSTGRES_USER=${CANVAS_DB_USER}
       - POSTGRES_PASSWORD=${CANVAS_DB_PASS}
       - POSTGRES_DB=${CANVAS_DB_USER}
-    restart: unless-stopped
 volumes:
   postgres_data:
