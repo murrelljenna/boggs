@@ -1,5 +1,13 @@
 from apps.tenant_db import models
 
+buildings = [
+    models.Building(
+        street_number = "25",
+        street_name = "Mabelle Ave.",
+        postal_code = "M4C3C2"
+    )
+]
+
 events = [
     models.Event(
         name = "Catan Party",

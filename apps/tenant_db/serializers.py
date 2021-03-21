@@ -1,6 +1,5 @@
 from apps.tenant_db import models
 from rest_framework import serializers
-from django.contrib.auth.models import User
 
 
 class ContactSerializer(serializers.ModelSerializer):

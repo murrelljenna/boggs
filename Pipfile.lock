@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "085753c4f5d1d72a3fdedda038c43dcc7e82b1dc1f596edb43ea7fdb02593fe5"
+            "sha256": "1f216e382374106b2ee6476e4ae7d783091d2bde02299299785cd8b46a036840"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,6 +23,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==3.3.1"
+        },
+        "attrs": {
+            "hashes": [
+                "sha256:31b2eced602aa8423c2aea9c76a724617ed67cf9513173fd3a4f03e3a929c7e6",
+                "sha256:832aa3cde19744e49938b91fea06d69ecb9e649c93ba974535d08ad92164f700"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==20.3.0"
         },
         "django": {
             "hashes": [
@@ -82,12 +90,20 @@
             "index": "pypi",
             "version": "==4.6.0"
         },
+        "hypothesis": {
+            "hashes": [
+                "sha256:2dd38676402d1c218225210cde0cf19f286352279f32631ac5c801f5d767bc94",
+                "sha256:3b7d9f7e40e406b550d4fd26fef0ce3fad216f163a3400ab701329b865e25876"
+            ],
+            "index": "pypi",
+            "version": "==6.8.1"
+        },
         "phonenumberslite": {
             "hashes": [
-                "sha256:24b8b01e1b8759ed32f98dd01f804b2da15ae67e8f416fd1ed101ea0ea9280d9",
-                "sha256:a08cded0caf0a39a9a27cf218c9ee531206d27f2480464f70d20128d8a67006d"
+                "sha256:b96d2bfc4d6006268719bd4a2b159fdb9bad636c05f1600ef49929bda381f208",
+                "sha256:e065d6b11e66a7aa42817c41146c822a7859989a9c9295996d19a4438fcca936"
             ],
-            "version": "==8.12.19"
+            "version": "==8.12.20"
         },
         "psycopg2": {
             "hashes": [
@@ -124,6 +140,13 @@
                 "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
             ],
             "version": "==2021.1"
+        },
+        "sortedcontainers": {
+            "hashes": [
+                "sha256:37257a32add0a3ee490bb170b599e93095eed89a55da91fa9f48753ea12fd73f",
+                "sha256:59cc937650cf60d677c16775597c89a960658a09cf7c1a668f86e1e4464b10a1"
+            ],
+            "version": "==2.3.0"
         },
         "sqlparse": {
             "hashes": [

@@ -22,6 +22,12 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+import django_filters.rest_framework
+from django_filters.rest_framework import DjangoFilterBackend
+
+class AttendanceListCreateAPIView(generics.ListCreateAPIView):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields=['event']
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -99,10 +105,11 @@ urlpatterns = [
     ),
     # Event
     path(
-        "attendances/",
-        generics.ListCreateAPIView.as_view(
+        "attendances",
+        AttendanceListCreateAPIView.as_view(
             queryset=models.Attendance.objects.all(),
             serializer_class=serializers.AttendanceSerializer,
+            filter_backends=[django_filters.rest_framework.DjangoFilterBackend],
         ),
         name="attendances",
     ),
