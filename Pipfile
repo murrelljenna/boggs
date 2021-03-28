@@ -13,6 +13,9 @@ djangorestframework-simplejwt = "*"
 psycopg2 = "*"
 django-filter = "*"
 hypothesis = "*"
+gsheets = "*"
+django-gsheets = "*"
+django-cron = "*"
 
 [dev-packages]
 

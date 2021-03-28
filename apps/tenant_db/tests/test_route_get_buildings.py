@@ -28,6 +28,7 @@ class BuildingsGetRouteTest(TestCase):
         response_building.pop('id')
         response_building.pop('created_at')
         response_building.pop('updated_at')
+        response_building.pop('source')
 
         expected_building = {
             'street_number': self.building.street_number,
@@ -44,6 +45,7 @@ class BuildingsGetRouteTest(TestCase):
         response_building.pop('id')
         response_building.pop('created_at')
         response_building.pop('updated_at')
+        response_building.pop('source')
 
         expected_building = {
             'street_number': self.building.street_number,

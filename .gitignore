@@ -112,6 +112,7 @@ media/
 *.pid
 
 apps/tenant_db/migrations/*
+credentials.json
 
 # Ignore Django Migrations in Development if you are working on team
 

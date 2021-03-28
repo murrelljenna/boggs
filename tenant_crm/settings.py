@@ -40,9 +40,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "gsheets",
+    "phonenumber_field",
     "apps.tenant_db",
     "corsheaders",
 ]
+
+gsheets = {
+    'CLIENT_SECRETS': './credentials.json'
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -96,7 +102,7 @@ DATABASES = {
         'NAME': 'canvas_db',
         "USER": os.environ.get('CANVAS_DB_USER'),
         "PASSWORD": os.environ.get('CANVAS_DB_PASS'),
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }

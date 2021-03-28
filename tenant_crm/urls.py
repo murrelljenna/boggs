@@ -24,6 +24,7 @@ from rest_framework_simplejwt.views import (
 )
 import django_filters.rest_framework
 from django_filters.rest_framework import DjangoFilterBackend
+import gsheets as gsheets
 
 class AttendanceListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
@@ -33,6 +34,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("token-auth/", TokenObtainPairView.as_view()),
     path("token-refresh/", TokenRefreshView.as_view()),
+    path('', include('gsheets.urls')),
     # path("", include("apps.tenant_db.urls")),
     # Contacts
     path(

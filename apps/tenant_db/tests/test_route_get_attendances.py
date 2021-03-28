@@ -17,14 +17,14 @@ class AttendanceGetRouteTest(TestCase):
         cls.user = User.objects.create_user(username=username, password=password)
         cls.authorized_client = TestUtils.getAuthorizedClient(username, password)
 
-    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact))))
+    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(max_size=10)))))
     @settings(max_examples=5)
     def test_get_attendance_count(self, attendances):
         response = self.authorized_client.get('/attendances')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), len(attendances))
 
-    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact)), min_size=1))
+    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(max_size=10))), min_size=1))
     @settings(max_examples=5)
     def test_get_attendance_by_id(self, attendances):
         attendance = random.choice(attendances)
@@ -41,7 +41,7 @@ class AttendanceGetRouteTest(TestCase):
         
         self.assertEqual(response_attendance, expected_attendance)
 
-    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact)), min_size=1))
+    @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(max_size=10))), min_size=1))
     @settings(max_examples=5)
     def test_get_attendance_by_event_id(self, attendances):
         attendance = random.choice(attendances)
