@@ -92,7 +92,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tenant_crm.wsgi.application"
-
+APPEND_SLASH = False
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

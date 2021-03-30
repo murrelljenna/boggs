@@ -30,12 +30,16 @@ class AttendanceListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields=['event']
 
+class ActivityListCreateAPIView(generics.ListCreateAPIView):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields=['contact']
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("token-auth/", TokenObtainPairView.as_view()),
     path("token-refresh/", TokenRefreshView.as_view()),
     path('', include('gsheets.urls')),
-    # path("", include("apps.tenant_db.urls")),
+    path("", include("apps.tenant_db.efforts.urls")),
     # Contacts
     path(
         "contacts/",
@@ -43,7 +47,7 @@ urlpatterns = [
             queryset=models.Contact.objects.all(),
             serializer_class=serializers.ContactSerializer,
         ),
-        name="contacts",
+        name="Contacts",
     ),
     path(
         "contacts/<int:pk>/",
@@ -51,7 +55,7 @@ urlpatterns = [
             queryset=models.Contact.objects.all(),
             serializer_class=serializers.ContactSerializer,
         ),
-        name="contacts_detail",
+        name="Contacts Detail",
     ),
     # Buildings
     path(
@@ -60,7 +64,7 @@ urlpatterns = [
             queryset=models.Building.objects.all(),
             serializer_class=serializers.BuildingSerializer,
         ),
-        name="buildings/",
+        name="Buildings",
     ),
     path(
         "buildings/<int:pk>/",
@@ -68,7 +72,7 @@ urlpatterns = [
             queryset=models.Building.objects.all(),
             serializer_class=serializers.BuildingSerializer,
         ),
-        name="buildings_detail",
+        name="Buildings Detail",
     ),
     # Organizer
     path(
@@ -77,7 +81,7 @@ urlpatterns = [
             queryset=models.Organizer.objects.all(),
             serializer_class=serializers.OrganizerSerializer,
         ),
-        name="Organizers",
+        name="Organizers List",
     ),
     path(
         "organizers/<int:pk>/",
@@ -85,9 +89,26 @@ urlpatterns = [
             queryset=models.Organizer.objects.all(),
             serializer_class=serializers.OrganizerSerializer,
         ),
-        name="organizers_detail",
+        name="Organizers Detail",
     ),
-
+    # Activity
+    path(
+        "activities/",
+        ActivityListCreateAPIView.as_view(
+            queryset=models.Activity.objects.all(),
+            serializer_class=serializers.ActivitySerializer,
+            filter_backends=[django_filters.rest_framework.DjangoFilterBackend],
+        ),
+        name="Activities List",
+    ),
+    path(
+        "activities/<int:pk>/",
+        generics.RetrieveUpdateDestroyAPIView.as_view(
+            queryset=models.Activity.objects.all(),
+            serializer_class=serializers.ActivitySerializer,
+        ),
+        name="Activities Detail",
+    ),
     # Event
     path(
         "events/",
@@ -95,7 +116,7 @@ urlpatterns = [
             queryset=models.Event.objects.all(),
             serializer_class=serializers.EventSerializer,
         ),
-        name="events",
+        name="Events List",
     ),
     path(
         "events/<int:pk>/",
@@ -103,17 +124,17 @@ urlpatterns = [
             queryset=models.Event.objects.all(),
             serializer_class=serializers.EventSerializer,
         ),
-        name="events_detail",
+        name="Events Detail",
     ),
     # Event
     path(
-        "attendances",
+        "attendances/",
         AttendanceListCreateAPIView.as_view(
             queryset=models.Attendance.objects.all(),
             serializer_class=serializers.AttendanceSerializer,
             filter_backends=[django_filters.rest_framework.DjangoFilterBackend],
         ),
-        name="attendances",
+        name="Attendance List",
     ),
     path(
         "attendances/<int:pk>/",
@@ -121,23 +142,6 @@ urlpatterns = [
             queryset=models.Attendance.objects.all(),
             serializer_class=serializers.AttendanceSerializer,
         ),
-        name="attendances_detail",
-    ),
-    # Do Not Knock
-    path(
-        "dnk/",
-        generics.ListCreateAPIView.as_view(
-            queryset=models.Do_Not_Knock.objects.all(),
-            serializer_class=serializers.dnkSerializer,
-        ),
-        name="dnk",
-    ),
-    path(
-        "dnk/<int:pk>/",
-        generics.RetrieveUpdateDestroyAPIView.as_view(
-            queryset=models.Do_Not_Knock.objects.all(),
-            serializer_class=serializers.dnkSerializer,
-        ),
-        name="dnk_detail",
+        name="Attendance Detail",
     ),
 ]

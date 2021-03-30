@@ -1,9 +1,9 @@
 from django.db import models
-from django.core.validators import EmailValidator
 from gsheets import mixins
 from phonenumber_field.modelfields import PhoneNumberField
 
 class CallResult(models.TextChoices):
+    TODO = 'TD'
     DO_NOT_CALL = 'DNC'
     NOT_AVAILABLE = 'N/A'
     MESSAGE = 'MSG'
@@ -11,13 +11,21 @@ class CallResult(models.TextChoices):
     MAYBE = 'M'
     NO = 'N'
 
-class CallResult(models.TextChoices):
+class CallActivityStatus(models.TextChoices):
+    TODO = 'TD'
     DO_NOT_CALL = 'DNC'
     NOT_AVAILABLE = 'N/A'
     MESSAGE = 'MSG'
     YES = 'Y'
     MAYBE = 'M'
     NO = 'N'
+
+class ActivityType(models.TextChoices):
+    CALL = 'CL'
+    EMAIL = 'EM'
+    KNOCK = 'KN'
+    FLYER = 'FL'
+    SECOND_VISIT = 'SV'
 
 class Gsheets_Contact(mixins.SheetPullableMixin, models.Model):
     spreadsheet_id = '1bjOqj3InBdOgucpujo3MknNfdQWQfjM8g1HH6ewmI0M'
@@ -44,6 +52,12 @@ class Gsheets_Building(mixins.SheetPullableMixin, models.Model):
     Owner = models.TextField()
     Prominent_Issues = models.TextField()
     Organizer = models.TextField()
+
+class CallEffort(models.Model):
+    name = models.CharField(max_length=30)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Building(models.Model):
     street_number = models.CharField(max_length=30)
@@ -83,6 +97,30 @@ class Contact(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     source = models.OneToOneField(Gsheets_Contact, on_delete=models.CASCADE, null=True, unique=True)
+
+class Activity(models.Model):
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    
+    code = models.CharField(
+        max_length=3,
+        choices=ActivityType.choices,
+        default=ActivityType.CALL,
+    )
+
+    status = models.CharField(
+        max_length=3,
+        choices=CallResult.choices,
+        default=CallResult.TODO
+    )
+
+    notes = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class CallEffortActivity(models.Model):
+    call_effort = models.ForeignKey(CallEffort, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 
 class Event(models.Model):
     name = models.CharField(max_length=30, null=False)

@@ -2,7 +2,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.test.utils import override_settings
 from apps.tenant_db.models import Attendance, CallResult, Event, Contact
-from apps.tenant_db.tests import TestUtils
+from apps.tenant_db.tests import TestUtils, strategies
 
 from hypothesis import given, settings
 import hypothesis.strategies as st
@@ -20,7 +20,7 @@ class AttendanceGetRouteTest(TestCase):
     @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(max_size=10)))))
     @settings(max_examples=5)
     def test_get_attendance_count(self, attendances):
-        response = self.authorized_client.get('/attendances')
+        response = self.authorized_client.get('/attendances/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), len(attendances))
 
@@ -42,17 +42,18 @@ class AttendanceGetRouteTest(TestCase):
         self.assertEqual(response_attendance, expected_attendance)
 
     @given(st.lists(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(max_size=10))), min_size=1))
-    @settings(max_examples=5)
+    @settings(max_examples=1000)
     def test_get_attendance_by_event_id(self, attendances):
         attendance = random.choice(attendances)
-        response = self.authorized_client.get(f"/attendances", {'event': attendance.event.id})
+        response = self.authorized_client.get(f"/attendances/", {'event': attendance.event.id})
         self.assertEqual(response.status_code, 200)
 
+        print(response.data)
         response_attendance = response.json()[0]
         self.assertEqual(response_attendance['id'], attendance.id)
 
     @given(st.integers(min_value=5))
-    @settings(max_examples=5)
+    @settings(max_examples=1000)
     def test_get_attendance_by_event_id_fail(self, eventId):
-        response = self.authorized_client.get(f"/attendances?event={eventId}")
+        response = self.authorized_client.get(f"/attendances/", {'event': eventId})
         self.assertEqual(response.status_code, 400)

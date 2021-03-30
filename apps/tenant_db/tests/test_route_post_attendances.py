@@ -17,7 +17,7 @@ class AttendancePostRouteTest(TestCase):
         cls.user = User.objects.create_user(username=username, password=password)
         cls.authorized_client = TestUtils.getAuthorizedClient(username, password)
 
-    @given(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(min_size=1, max_size=10))))
+    @given(from_model(Attendance, event=from_model(Event), contact=from_model(Contact, phone_number=st.text(alphabet=st.characters(min_codepoint=1)))))
     def test_post_attendance(self, attendance):
         serialized_attendance = AttendanceSerializer(attendance).data
         serialized_attendance.pop('id')
