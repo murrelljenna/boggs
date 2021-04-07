@@ -1,13 +1,12 @@
-from django.test import Client
 from django.contrib.auth.models import User
-from django.test.utils import override_settings
-from apps.tenant_db.models import Activity, CallResult, Contact
-from apps.tenant_db.tests import TestUtils
+from apps.tenant_db.models import Activity, Contact
+from apps.tenant_db.test import TestUtils, strategies
 
 from hypothesis import given, settings
 import hypothesis.strategies as st
 import random
 from hypothesis.extra.django import TestCase, from_model
+
 
 class ActivitiesGetRouteTest(TestCase):
     @classmethod
@@ -17,7 +16,7 @@ class ActivitiesGetRouteTest(TestCase):
         cls.user = User.objects.create_user(username=username, password=password)
         cls.authorized_client = TestUtils.getAuthorizedClient(username, password)
 
-    @given(st.lists(from_model(Activity, contact=from_model(Contact, phone_number=st.text(max_size=10,alphabet=st.characters(min_codepoint=1))))))
+    @given(st.lists(from_model(Activity, contact=from_model(Contact, phone_number=st.text(max_size=10, alphabet=st.characters(min_codepoint=1))))))
     @settings(max_examples=5)
     def test_get_activity_count(self, activities):
         response = self.authorized_client.get('/activities/')
@@ -50,15 +49,15 @@ class ActivitiesGetRouteTest(TestCase):
 
         expected_activity = {
             'contact': activity.contact.id,
-            'code': activity.code.value,
-            'status': activity.status.value,
+            'code': activity.code,
+            'status': activity.status,
             'notes': activity.notes
         }
         
         self.assertEqual(response_activity, expected_activity)
 
     @given(st.lists(from_model(Activity, contact=from_model(Contact, phone_number=st.text(max_size=10, alphabet=st.characters(min_codepoint=1)
-))), min_size=1))
+                                                                                          ))), min_size=1))
     @settings(max_examples=5)
     def test_get_activity_by_contact_id(self, activities):
         activity = random.choice(activities)
@@ -73,3 +72,21 @@ class ActivitiesGetRouteTest(TestCase):
     def test_get_activity_by_contact_id_fail(self, contactId):
         response = self.authorized_client.get(f"/activities/", {'contact': contactId})
         self.assertEqual(response.status_code, 400)
+
+
+class ActivitiesPatchRouteTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        username = 'testuser'
+        password = '12345'
+        cls.user = User.objects.create_user(username=username, password=password)
+        cls.authorized_client = TestUtils.getAuthorizedClient(username, password)
+
+    @given(strategies.activities)
+    @settings(max_examples=5)
+    def test_patch_activity_status(self, activities):
+        activity = random.choice(activities)
+        response = self.authorized_client.patch(f"/activities/{activity.id}/", content_type='application/json', data={'status': 'Y'})
+        self.assertEqual(response.status_code, 200)
+        activity = Activity.objects.get(id=activity.id)
+        self.assertEqual(activity.status, 'Y')

@@ -1,12 +1,8 @@
-from django.test import Client
 from django.contrib.auth.models import User
-from django.test.utils import override_settings
-from apps.tenant_db.models import Activity, CallResult, Contact, CallResult
-from apps.tenant_db.tests import TestUtils, strategies
-from apps.tenant_db import models
+from apps.tenant_db.models import Contact
+from apps.tenant_db.test import TestUtils, strategies
 
 from hypothesis import given, settings
-import hypothesis.strategies as st
 import random
 from hypothesis.extra.django import TestCase, from_model
 

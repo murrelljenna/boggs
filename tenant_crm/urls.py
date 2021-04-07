@@ -126,22 +126,4 @@ urlpatterns = [
         ),
         name="Events Detail",
     ),
-    # Event
-    path(
-        "attendances/",
-        AttendanceListCreateAPIView.as_view(
-            queryset=models.Attendance.objects.all(),
-            serializer_class=serializers.AttendanceSerializer,
-            filter_backends=[django_filters.rest_framework.DjangoFilterBackend],
-        ),
-        name="Attendance List",
-    ),
-    path(
-        "attendances/<int:pk>/",
-        generics.RetrieveUpdateDestroyAPIView.as_view(
-            queryset=models.Attendance.objects.all(),
-            serializer_class=serializers.AttendanceSerializer,
-        ),
-        name="Attendance Detail",
-    ),
 ]

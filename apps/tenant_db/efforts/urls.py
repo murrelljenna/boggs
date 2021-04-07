@@ -19,11 +19,11 @@ class CallEffortAPIView(viewsets.ViewSet):
             for contact in contacts:
                 activity = models.Activity.objects.create(
                     contact=contact,
-                    code=models.ActivityType.CALL,
-                    status=models.CallResult.TODO,
+                    code="CALL",
+                    status="TODO",
                 )
 
-                callEffortActivity = models.CallEffortActivity.objects.create(
+                models.CallEffortActivity.objects.create(
                     call_effort=serializer.save(),
                     activity=activity
                 )

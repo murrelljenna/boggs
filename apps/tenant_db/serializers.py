@@ -31,13 +31,3 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = "__all__"
-
-class AttendanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Attendance
-        fields = "__all__"
-
-class dnkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Do_Not_Knock
-        fields = "__all__"

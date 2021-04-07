@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from apps.tenant_db.serializers import EventSerializer
 from apps.tenant_db.models import Event
-from apps.tenant_db.tests import TestUtils
+from apps.tenant_db.test import TestUtils
 
 class EventsRouteTest(TestCase):
     def setUp(self):

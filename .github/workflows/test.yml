@@ -11,5 +11,5 @@ jobs:
         echo "export CANVAS_DB_USER=${{ secrets.CANVAS_DB_USER }}" >> .env
         echo "export CANVAS_DB_SECRET=${{ secrets.CANVAS_DB_SECRET }}" >> .env
         echo "export CANVAS_DB_PASS=${{ secrets.CANVAS_DB_PASS }}" >> .env
-    - name: Build and run tests
+    - name: Build and run test
       run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from web-test --build
